@@ -101,6 +101,39 @@ public class EmployeeController {
 
     }
 
+    /**
+     * 禁用或启用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable("status") Integer status, Long id){
+        log.info("启用禁用账号信息{},{}", status, id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+
+    /**
+     * 根据id查询员工，进行修改前的回显
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    public Result<Employee> getEmployeeById(@PathVariable("id") Long id) {
+        log.info("要查询的员工id为{}",id);
+        Employee employee = employeeService.getEmployeeById(id);
+        return Result.success(employee);
+    }
+
+
+    @PutMapping
+    public Result updateEmployee(@RequestBody Employee employee) {
+        log.info("要修改的信息为{}", employee);
+        employeeService.updateEmployee(employee);
+        return Result.success();
+    }
 
 
 
