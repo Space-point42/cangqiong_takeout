@@ -6,3 +6,7 @@ sky:
     database: sky_take_out
     username: root
     password: jr20051120041121
+  alioss:
+    bucketName: space-point
+    region: cn-shanghai
+    endPoint: https://oss-cn-shanghai.aliyuncs.com
