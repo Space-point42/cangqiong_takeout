@@ -43,4 +43,6 @@ public interface DishMapper {
     Dish getDishByDishId(Long dishId);
 
     void update(DishDTO dishDTO);
+
+    List<DishVO> select(Long categoryId);
 }

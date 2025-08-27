@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -135,6 +136,11 @@ public class DishServiceImpl implements DishService {
         dishDTO.setStatus(status);
         dishMapper.update(dishDTO);
 
+    }
+
+    @Override
+    public List<DishVO> getByCategoryId(Long categoryId) {
+        return dishMapper.select(categoryId);
     }
 
 

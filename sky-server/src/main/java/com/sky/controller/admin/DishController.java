@@ -82,6 +82,12 @@ public class DishController {
         return Result.success();
     }
 
+    @GetMapping("/list")
+    public Result<List<DishVO>> getByCategoryId(@RequestParam("categoryId") Long categoryId) {
+        log.info("要查询的分类id为{}",categoryId);
+        List<DishVO> dishes = dishService.getByCategoryId(categoryId);
+        return Result.success(dishes);
+    }
 
 
 
