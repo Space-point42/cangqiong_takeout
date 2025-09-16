@@ -10,3 +10,10 @@ sky:
     bucketName: space-point
     region: cn-shanghai
     endPoint: https://oss-cn-shanghai.aliyuncs.com
+  redis:
+    host: localhost
+    password: 200511
+    port: 6379
+  wechat:
+    appid: wx4f7daf48bfbe9f37
+    secret: cc6ba39b1eae93c322b5f12adfbb560a

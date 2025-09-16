@@ -16,7 +16,7 @@
         </foreach>
     </select>
     <select id="select" resultType="com.sky.entity.SetmealDish">
-        select * from setmeal_dish
+        select * from setmeal_dish ,dish
         <where>
             <if test="id!=null">and id=#{id}</if>
             <if test="setmealId!=null">and setmeal_id=#{setmealId}</if>

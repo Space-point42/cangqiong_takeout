@@ -11,9 +11,11 @@ import com.sky.vo.DishVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/admin/dish")
@@ -21,11 +23,15 @@ import java.util.List;
 public class DishController {
     @Autowired
     private DishService dishService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @PostMapping
     public Result addDish(@RequestBody DishDTO dishDTO) {
         log.info("添加菜品：{}", dishDTO);
         dishService.addDishWithFlavor(dishDTO);
+        //清楚指定缓存
+        clearCache("dish_"+dishDTO.getCategoryId());
         return Result.success();
     }
 
@@ -40,6 +46,8 @@ public class DishController {
     @DeleteMapping
     public Result deleteDish(@RequestParam List<Long> ids) {
         log.info("要删除的菜品的id为{}",ids);
+        //删除所有缓存
+        clearCache("dish_*");
         dishService.deleteByIds(ids);
         return Result.success();
     }
@@ -65,6 +73,7 @@ public class DishController {
     @PutMapping
     public Result updateDish(@RequestBody DishDTO dishDTO) {
         log.info("插入的菜品为{}", dishDTO);
+        clearCache("dish_*");
         dishService.updateDish(dishDTO);
         return Result.success();
     }
@@ -78,6 +87,7 @@ public class DishController {
     @PostMapping("/status/{status}")
     public Result startOrStop(@RequestParam("id") Long dishId, @PathVariable Integer status ) {
         log.info("菜品id为{}的状态改为{}",dishId,status);
+        clearCache("dish_*");
         dishService.updateDishstatus(dishId,status);
         return Result.success();
     }
@@ -90,7 +100,14 @@ public class DishController {
     }
 
 
-
+    /**
+     * 清除指定缓存数据
+     * @param pattern
+     */
+    private void clearCache(String pattern) {
+        Set keys = redisTemplate.keys(pattern);
+        redisTemplate.delete(keys);
+    }
 
 
 

@@ -45,4 +45,6 @@ public interface DishMapper {
     void update(DishDTO dishDTO);
 
     List<DishVO> select(Long categoryId);
+
+
 }
