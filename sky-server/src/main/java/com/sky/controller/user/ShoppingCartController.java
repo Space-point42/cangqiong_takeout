@@ -5,6 +5,7 @@ import com.sky.entity.ShoppingCart;
 import com.sky.result.Result;
 import com.sky.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,25 @@ public class ShoppingCartController {
         log.info("获取购物车中的信息");
         List<ShoppingCart> shoppingCarts = shoppingCartService.getAll();
         return Result.success(shoppingCarts);
+    }
+
+    @DeleteMapping("/clean")
+    public Result deleteAll(){
+        log.info("清空购物车");
+        shoppingCartService.deleteAll();
+        return Result.success();
+    }
+
+    /**
+     * 减少菜品数量
+     * @param shoppingCartDTO
+     * @return
+     */
+    @PostMapping("/sub")
+    public Result delete(@RequestBody ShoppingCartDTO shoppingCartDTO) {
+        log.info("要减少的菜品信息为 {}", shoppingCartDTO);
+        shoppingCartService.delete(shoppingCartDTO);
+        return Result.success();
     }
 
 }
